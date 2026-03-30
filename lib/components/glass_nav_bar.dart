@@ -55,7 +55,7 @@ class GlassNavBar extends StatelessWidget {
     return ClipOval(
       child: BackdropFilter(
 
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
         child: Container(
           width: 60,
           height: 60,
@@ -89,7 +89,7 @@ class GlassNavBar extends StatelessWidget {
       borderRadius: BorderRadius.circular(32),
       child: BackdropFilter(
 
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
         child: Container(
 
           width: isDesktop ? 60 : 164,

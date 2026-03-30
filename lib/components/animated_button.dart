@@ -42,8 +42,9 @@ class _AnimatedButtonState extends State<AnimatedButton> {
       }),
       child: GestureDetector(
         onTapDown: (_) => setState(() => _scale = 0.9),
-        onTapUp: (_) => setState(() => _scale = 1.2),
+        onTapUp: (_) => setState(() => _scale = _isHovered ? 1.2 : 1.0),
         onTap: widget.onTap,
+        onTapCancel: () => setState(() => _scale = 1.0),
         child: AnimatedScale(
           scale: _scale,
           duration: const Duration(milliseconds: 300),
