@@ -59,7 +59,7 @@ class GlassNavBar extends StatelessWidget {
         child: Container(
           width: 60,
           height: 60,
-          padding: const EdgeInsets.all(4),
+          padding: const EdgeInsets.all(7),
           decoration: BoxDecoration(
             color: colorScheme.primaryContainer.withValues(alpha: 0.3),
             shape: BoxShape.circle,
