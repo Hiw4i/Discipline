@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
+import 'package:flutter/services.dart';
 
 void _defaultOnTap() {
   print('Tile tapped, but no action defined');
 }
 
-Widget _defaultScreen(BuildContext context) {
+Widget _screen(BuildContext context, String title, Widget destination) {
   final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
   return Scaffold(
     appBar: AppBar(
-      title: const Text("Default Screen"),
+      title: Text(title),
       backgroundColor: colorScheme.surfaceContainer,
       ),
-    body: const Center(child: Text("This is a placeholder screen.")),
+    body: destination,
     backgroundColor: colorScheme.surfaceContainer,
   );
 }
@@ -81,12 +82,15 @@ class SettingsTile extends StatelessWidget {
               shape: RoundedRectangleBorder(borderRadius: getBorderRadius()),
               leading: Icon(icon, color: colorScheme.onSurfaceVariant),
               title: Text(title, style: TextStyle(color: colorScheme.onSurface)),
-              onTap: onTap ?? _defaultOnTap,
+              onTap: () {
+                HapticFeedback.lightImpact();
+                (onTap ?? _defaultOnTap)();
+              },
             ),
           )
         : OpenContainer(
             transitionType: ContainerTransitionType.fadeThrough,
-            openBuilder: (context, _) => destination ?? _defaultScreen(context),
+            openBuilder: (context, _) => _screen(context, title, destination ??  const Center(child: Text("This is a placeholder screen.")) ),
             closedElevation: 0,
             closedShape: RoundedRectangleBorder(borderRadius: getBorderRadius()),
             openColor: colorScheme.surfaceContainer,
@@ -95,7 +99,10 @@ class SettingsTile extends StatelessWidget {
             closedBuilder: (context, openContainer) => ListTile(
               leading: Icon(icon, color: colorScheme.onSurfaceVariant),
               title: Text(title, style: TextStyle(color: colorScheme.onSurface)),
-              onTap: openContainer,
+              onTap: (){
+                HapticFeedback.lightImpact();
+                openContainer();
+              }
             ),
           ),
     

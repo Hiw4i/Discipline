@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:disciplite/components/settings_components/settings_tile.dart';
+import 'package:ascend/home/settings_screen/components/settings_tile.dart';
+import 'package:ascend/home/settings_screen/appearance_settings_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -14,6 +15,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    
     double width = MediaQuery.of(context).size.width;
     bool isDesktop = width > 800;
 
@@ -23,8 +26,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ? Row(
             children: [
               Expanded(child: _buildList(isDesktop: true)),
-              const VerticalDivider(width: 1),
-              Expanded(flex: 2, child: _buildRightContent()),
+
+              Expanded(
+                flex: 2, 
+                child: Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    color: colorScheme.surfaceContainer,
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  margin: const EdgeInsets.only(top: 32, right: 32, bottom: 32),
+                  child: _buildRightContent(),
+                )
+              ),
             ]
           )
         : _buildList(isDesktop: false)
@@ -74,6 +88,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               isSelected: _selectedIndex == 4,
               isDesktop: isDesktop,
               onTap: () => setState(() => _selectedIndex = 4),
+              destination: AppearanceSettingsScreen(),
             ),
             SettingsTile(
               icon: Icons.vibration,
@@ -113,6 +128,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ]
         ),
+
+        const SizedBox(height: 32),
       ],
     );
   }
@@ -140,6 +157,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     if (_selectedIndex == 0) {
       content = const Text("Select a setting from the left");
+    } else if (_selectedIndex == 4) {
+      content = AppearanceSettingsScreen();
     } else {
       content = Text("Page number $_selectedIndex");
     }

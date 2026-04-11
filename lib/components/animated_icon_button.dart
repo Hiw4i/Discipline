@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class AnimatedButton extends StatefulWidget {
+class AnimatedIconButton extends StatefulWidget {
   final IconData icon;
   final VoidCallback onTap;
   final bool isSelected;
 
-  const AnimatedButton({
+  const AnimatedIconButton({
     super.key,
     required this.icon,
     required this.onTap,
@@ -13,10 +14,10 @@ class AnimatedButton extends StatefulWidget {
     });
 
   @override
-  State<AnimatedButton> createState() => _AnimatedButtonState();
+  State<AnimatedIconButton> createState() => _AnimatedIconButtonState();
 }
 
-class _AnimatedButtonState extends State<AnimatedButton> {
+class _AnimatedIconButtonState extends State<AnimatedIconButton> {
   double _scale = 1.0;
   bool _isHovered = false;
 
@@ -33,7 +34,7 @@ class _AnimatedButtonState extends State<AnimatedButton> {
 
     return MouseRegion(
       onEnter: (_) => setState(() {
-        _scale = 1.2;
+        _scale = 1.1;
         _isHovered = true;
       }),
       onExit: (_) => setState(() {
@@ -42,13 +43,16 @@ class _AnimatedButtonState extends State<AnimatedButton> {
       }),
       child: GestureDetector(
         onTapDown: (_) => setState(() => _scale = 0.9),
-        onTapUp: (_) => setState(() => _scale = _isHovered ? 1.2 : 1.0),
-        onTap: widget.onTap,
+        onTapUp: (_) => setState(() => _scale = _isHovered ? 1.1 : 1.0),
+        onTap: () {
+          HapticFeedback.lightImpact();
+          widget.onTap();
+        },
         onTapCancel: () => setState(() => _scale = 1.0),
         child: AnimatedScale(
           scale: _scale,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.bounceInOut,
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.elasticOut,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             padding: const EdgeInsets.all(10),
